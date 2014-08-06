@@ -48,6 +48,12 @@ describe 'the person view', type: :feature do
       expect(page).to have_content('555-9191')
       expect(page).to_not have_content(old_number)
     end
+
+    it 'has links to destroy phone numbers' do
+      person.phone_numbers.each do |phone|
+        expect(page).to have_link('destroy', href: phone_number_path(phone))
+      end
+    end
   end
 
   describe 'email addresses' do
@@ -92,6 +98,22 @@ describe 'the person view', type: :feature do
       expect(current_path).to eq(person_path(person))
       expect(page).to have_content('somethingelse@example.com')
       expect(page).to_not have_content(old_address)
+    end
+
+    it 'has links to destroy email addresses' do
+      person.email_addresses.each do |email|
+        expect(page).to have_link('destroy', href: email_address_path(email))
+      end
+    end
+
+    it 'deletes a email address' do
+      bad_email = person.email_addresses.first
+      good_email  = person.email_addresses.last
+
+      first(:link, 'destroy').click
+      expect(current_path).to eq(person_path(person))
+      expect(page).to have_content(good_email.address)
+      expect(page).to_not have_content(bad_email.address)
     end
 
   end
