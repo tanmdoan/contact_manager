@@ -47,6 +47,21 @@ describe 'the company view', type: :feature do
       expect(page).to_not have_content(old_number)
       expect(page).to have_content('1800google')
     end
+
+    it 'has a link to delete phone numbers' do
+      company.phone_numbers.each do |phone|
+        expect(page).to have_link('destroy', href: phone_number_path(phone))
+      end
+    end
+
+    it 'deletes a phone number' do
+      first_number = company.phone_numbers.first
+      last_number = company.phone_numbers.last
+
+      first(:link, 'destroy').click
+      expect(page).to have_content(last_number.number)
+      expect(page).to_not have_content(first_number.number)
+    end
   end
 
 end
