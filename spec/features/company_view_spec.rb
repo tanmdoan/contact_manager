@@ -29,6 +29,24 @@ describe 'the company view', type: :feature do
       expect(current_path).to eq(company_path(company))
       expect(page).to have_content('123-4567')
     end
+
+    it 'has a link to edit phone numbers' do
+      company.phone_numbers.each do |phone|
+        expect(page).to have_link('edit', href: edit_phone_number_path(phone))
+      end
+    end
+
+    it 'edits a phone number' do
+      phone_number = company.phone_numbers.first
+      old_number = phone_number.number
+
+      first(:link, 'edit').click
+      page.fill_in('Number', with: '1800google')
+      page.click_button('Update Phone number')
+      expect(current_path).to eq(company_path(company))
+      expect(page).to_not have_content(old_number)
+      expect(page).to have_content('1800google')
+    end
   end
 
 end
