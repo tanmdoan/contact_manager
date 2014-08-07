@@ -4,8 +4,8 @@ RSpec.describe "phone_numbers/edit", :type => :view do
   before(:each) do
     @phone_number = assign(:phone_number, PhoneNumber.create!(
       :number => "MyString",
-      :person_id => 1
-    ))
+      :contact_id => 1
+      ))
   end
 
   it "renders the edit phone_number form" do
@@ -15,7 +15,7 @@ RSpec.describe "phone_numbers/edit", :type => :view do
 
       assert_select "input#phone_number_number[name=?]", "phone_number[number]"
 
-      assert_select "input#phone_number_person_id[name=?]", "phone_number[person_id]"
+      assert_select "input#phone_number_contact_id[name=?]", "phone_number[contact_id]"
     end
   end
 end
