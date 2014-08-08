@@ -80,6 +80,14 @@ describe 'the company view', type: :feature do
     it 'has link to add new email' do
       expect(page).to have_link('Add email address', href: new_email_address_path(contact_id: company.id, contact_type: "Company"))
     end
+
+    it 'adds a new email' do
+      page.click_link('Add email address')
+      page.fill_in('Address', with: 'new@example.com')
+      page.click_button('Create Email address')
+      expect(current_path).to eq(company_path(company))
+      expect(page).to have_content('new@example.com')
+    end
   end
 
 end
