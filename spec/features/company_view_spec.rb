@@ -105,6 +105,20 @@ describe 'the company view', type: :feature do
       expect(page).to_not have_content(old_address)
       expect(page).to have_content('edit@example.com')
     end
+
+    it 'has a link to destroy email address' do
+      company.email_addresses.each do |email|
+        expect(page).to have_link('destroy', href: email_address_path(email))
+      end
+    end
+
+    it 'deletes an email address' do
+      first_address = company.email_addresses.first
+      last_address = company.email_addresses.last
+      first(:link, 'destroy').click
+      expect(page).to have_content(last_address.address)
+      expect(page).to_not have_content(first_address.address)
+    end
   end
 
 end
