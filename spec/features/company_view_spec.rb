@@ -64,4 +64,22 @@ describe 'the company view', type: :feature do
     end
   end
 
+  describe 'email addresses' do
+    before(:each) do
+      company.email_addresses.create(address: "boby@example.com")
+      company.email_addresses.create(address: "will@example.com")
+      visit company_path(company)
+    end
+
+    it 'shows emails' do
+      company.email_addresses.each do |email|
+        expect(page).to have_content(email.address)
+      end
+    end
+
+    it 'has link to add new email' do
+      expect(page).to have_link('Add email address', href: new_email_address_path(contact_id: company.id, contact_type: "Company"))
+    end
+  end
+
 end
