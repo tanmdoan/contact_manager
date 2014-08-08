@@ -88,6 +88,23 @@ describe 'the company view', type: :feature do
       expect(current_path).to eq(company_path(company))
       expect(page).to have_content('new@example.com')
     end
+
+    it 'has a link to edit emails' do
+      company.email_addresses.each do |email|
+        expect(page).to have_link('edit', href: edit_email_address_path(email))
+      end
+    end
+
+    it 'edits an email address' do
+      email = company.email_addresses.first
+      old_address =  email.address
+
+      first(:link, 'edit').click
+      page.fill_in('Address', with: 'edit@example.com')
+      page.click_button('Update Email address')
+      expect(page).to_not have_content(old_address)
+      expect(page).to have_content('edit@example.com')
+    end
   end
 
 end
