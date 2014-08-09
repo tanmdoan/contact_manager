@@ -1,6 +1,5 @@
 class EmailAddressesController < ApplicationController
-  before_action :set_email_address, only: [:show, :edit, :update, :destroy]
-
+  before_action :find_resource, only: [:show, :edit, :update, :destroy]
   def new
     @email_address = EmailAddress.new(contact_id: params[:contact_id], contact_type: params[:contact_type])
   end
@@ -50,12 +49,7 @@ class EmailAddressesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_email_address
-      @email_address = EmailAddress.find(params[:id])
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
+    
     def email_address_params
       params.require(:email_address).permit(:address, :contact_id, :contact_type)
     end
