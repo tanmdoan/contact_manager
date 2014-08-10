@@ -92,7 +92,7 @@ describe 'the person view', type: :feature do
       email = person.email_addresses.first
       old_address = email.address
 
-      first(:link).click
+      first(:link, 'edit').click
       page.fill_in('Address', with: 'somethingelse@example.com')
       page.click_button('Update Email address')
       expect(current_path).to eq(person_path(person))
